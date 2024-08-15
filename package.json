@@ -1,20 +1,30 @@
 {
   "name": "nodejs-mongodb-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend for SuperCerebros",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/index.js"
+    "check-engines": "node -e \"const {engines} = require('./package'); const [major, minor] = process.versions.node.split('.').map(Number); const [reqMajor, reqMinor] = engines.node.replace('>=', '').split('.').map(Number); if(major < reqMajor || (major === reqMajor && minor < reqMinor)) throw new Error('Node version is too low! Required: ' + engines.node);\"",
+    "dev": "npm run check-engines && nodemon src/index.js",
+    "start": "node src/index.js"
+  },
+  "engines": {
+    "node": ">=22.2.0",
+    "npm": ">=10.7.0"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "fs": "^0.0.1-security",
+    "https": "^1.0.0",
     "mongodb": "^6.7.0",
-    "mongoose": "^8.4.1"
+    "mongoose": "^8.5.2",
+    "nodejs-mongodb-api": "file:"
   },
   "devDependencies": {
     "nodemon": "^3.1.3"

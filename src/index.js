@@ -1,26 +1,29 @@
-const express = require("express");
-const mongoose = require("mongoose");
-require("dotenv").config();
-const userRoute = require("./routes/user");
+const express = require('express');
+const mongoose = require('mongoose');
+require('dotenv').config();
+const userRoute = require('./routes/userRoute');
+const cors = require('cors');
 
-// settings
 const app = express();
 const port = process.env.PORT || 3000;
 
-// middlewares
 app.use(express.json());
-app.use("/api", userRoute);
 
-// routes
-app.get("/", (req, res) => {
-  res.send("Welcome to my API");
+app.use('/api', userRoute);
+
+app.get('/', (req, res) => {
+  res.send('Welcome to SuperCerebros API');
 });
 
-// mongodb connection
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => console.log("Connected to MongoDB Atlas"))
-  .catch((error) => console.error(error));
+if (!process.env.MONGO_URI) {
+  console.error("MONGO_URI is not defined in the environment variables");
+  process.exit(1);
+}
 
-// server listening
-app.listen(port, () => console.log("Server listening to", port));
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB Atlas'))
+  .catch((error) => console.error('Error connecting to MongoDB Atlas:', error));
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});

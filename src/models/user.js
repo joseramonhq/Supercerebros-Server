@@ -1,33 +1,28 @@
-const mongoose = require("mongoose");
-const { Schema, model } = mongoose;
+const mongoose = require('mongoose');
 
-const userSchema = mongoose.Schema({
-  username: {
-    type: String,
-    required: 'Nombre de usuario'
-  },
-  password: {
-    type: String,
-    required: 'Contraseña'
-  },
-  email: {
-    type: String,
-    required: 'Email'
-  },
-  roles: {
-    type: [String],
-    required: true,
-    validate: {
-      validator: function(rolesArray) {
-        const validRoles = ['admin', 'user', 'guest'];
-        return rolesArray.every(role => validRoles.includes(role));
-      },
-      message: 'Roles no válidos, deben ser uno de: admin, user, guest'
-    }
-  }
+const userSchema = new mongoose.Schema({
+  role: { type: String, enum: ['Tutor', 'Child'], required: true },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String },
+  phone: { type: String },
+  birthDate: { type: Date },
+  dni: { type: String },
+  gender: { type: String },
+  medicalInfo: { type: String },
+  parentId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  childrenIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  fileIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'File' }]
 }, {
-  timestamps: true // Agrega automáticamente los campos createdAt y updatedAt
+  timestamps: true
 });
 
+userSchema.pre('save', function(next) {
+  if (this.isNew && this.role === 'Tutor') {
+    this.registrationDate = Date.now();
+  }
+  next();
+});
 
 module.exports = mongoose.model('User', userSchema);
