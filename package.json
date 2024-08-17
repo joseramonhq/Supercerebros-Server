@@ -26,7 +26,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.7.0",
     "mongoose": "^8.5.2",
-    "nodejs-mongodb-api": "file:"
+    "nodejs-mongodb-api": "file:",
+    "validator": "^13.12.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.3"
