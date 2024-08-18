@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const validator = require('validator');
 
 const userSchema = new mongoose.Schema({
   role: { type: String, enum: ['Tutor', 'Child'], required: true },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String },
+  password: { type: String, required: true },
   phone: { type: String },
   birthDate: { type: Date },
   dni: { type: String },
@@ -14,43 +16,39 @@ const userSchema = new mongoose.Schema({
   parentId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   childrenIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   fileIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'File' }],
-  registrationDate: { type: Date },  // Añadido aquí
+  registrationDate: { type: Date },
 }, {
   timestamps: true
 });
 
+// Hook para cifrar la contraseña y normalizar el email
 userSchema.pre('save', function(next) {
-  if (this.isNew && this.role === 'Tutor') {
-    this.registrationDate = Date.now();
+  const user = this;
+
+  // Normalizar el email si ha sido modificado
+  if (user.isModified('email')) {
+    user.email = validator.normalizeEmail(user.email);
   }
-  next();
+
+  // Cifrar la contraseña si ha sido modificada
+  if (user.isModified('password')) {
+    bcrypt.genSalt(10, function(err, salt) {
+      if (err) return next(err);
+
+      bcrypt.hash(user.password, salt, null, function(err, hash) {
+        if (err) return next(err);
+        user.password = hash;
+        next();
+      });
+    });
+  } else {
+    next();
+  }
+
+  // Establecer la fecha de registro si es un nuevo tutor
+  if (user.isNew && user.role === 'Tutor') {
+    user.registrationDate = Date.now();
+  }
 });
 
-userSchema.pre('save', async function(next) {
-  if (this.isModified('password')) {
-    try {
-      const salt = await bcrypt.genSalt(10);
-      this.password = await bcrypt.hash(this.password, salt);
-    } catch (error) {
-      return next(error);
-    }
-  }
-
-  if (this.isNew && this.role === 'Tutor') {
-    this.registrationDate = Date.now();
-  }
-  next();
-});
-
-const validator = require('validator');
-
-userSchema.pre('save', function(next) {
-  if (this.isModified('email')) {
-    this.email = validator.normalizeEmail(this.email); // Normaliza el email
-  }
-
-  next();
-});
-
-// Exportar el modelo de usuario
 module.exports = mongoose.model('User', userSchema);
