@@ -1,5 +1,5 @@
 const bcryptjs = require('bcryptjs');  // Asegúrate de que esta línea esté correcta
-const User = require("../models/User");
+const User = require("../models/user");
 
 
 const UserController = {
