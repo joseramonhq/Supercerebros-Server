@@ -13,6 +13,11 @@ app.use('/api', userRoute);
 app.get('/', (req, res) => {
   res.send('Welcome to SuperCerebros API');
 });
+
+if (!process.env.MONGO_URI) {
+  console.error("MONGO_URI is not defined in the environment variables");
+  process.exit(1);
+}
 // Manejo específico del favicon
 app.get('/favicon.ico', (req, res) => res.status(204));
 
