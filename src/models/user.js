@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
   gender: { type: String },
   medicalInfo: { type: String },
   parentId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  childrenIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  childrenIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], 
   fileIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'File' }],
   registrationDate: { type: Date },
 }, {
