@@ -21,13 +21,17 @@ const AuthController = {
         return res.status(400).json({ message: "Contraseña incorrecta" });
       }
 
-      // Si la contraseña es correcta, devolver el id del usuario
-      res.status(200).json({ success: true, userId: user._id, role: user.role });
+      // Excluir la contraseña antes de devolver el usuario
+      const { password: _, ...userWithoutPassword } = user.toObject();
+
+      // Si la contraseña es correcta, devolver el usuario sin la contraseña
+      res.status(200).json({ success: true, user: userWithoutPassword });
     } catch (error) {
       console.error("Error en el inicio de sesión", error);
       res.status(500).json({ message: "Error interno del servidor" });
     }
   },
 };
+
 
 module.exports = AuthController;
