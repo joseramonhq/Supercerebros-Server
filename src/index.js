@@ -2,13 +2,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const userRoute = require('./routes/userRoute');
+const childRoute= require('./routes/childRoute');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.use('/api', userRoute);
+app.use('/api/users', userRoute);
+app.use('/api/childs',childRoute);
 
 app.get('/', (req, res) => {
   res.send('Welcome to SuperCerebros API');
@@ -20,11 +22,6 @@ if (!process.env.MONGO_URI) {
 }
 // Manejo específico del favicon
 app.get('/favicon.ico', (req, res) => res.status(204));
-
-if (!process.env.MONGO_URI) {
-  console.error("MONGO_URI is not defined in the environment variables");
-  process.exit(1);
-}
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB Atlas'))

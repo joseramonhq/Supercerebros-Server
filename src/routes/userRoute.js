@@ -4,13 +4,13 @@ const AuthController = require('../controllers/authController')
 
 const router = express.Router();
 
-router.post('/users/login', AuthController.loginUser); // seguridad con el metodo POST
+router.post('/login', AuthController.loginUser); // seguridad con el metodo POST
 
 // Rutas para el usuario
 
-router.post('/users/register', UserController.register);
-router.get('/users', UserController.getAllUsers);
-router.get('/users/:userId', UserController.getUserById);
-router.get('/users/email/:email', UserController.getUserByEmail);
+router.post('/register', UserController.register);
+router.get('/', UserController.getAllUsers);
+router.get('/:userId', UserController.getUserById);
+router.get('/email/:email', UserController.getUserByEmail);
 
 module.exports = router;
