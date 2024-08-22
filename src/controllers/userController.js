@@ -12,10 +12,10 @@ const UserController = {
             if (!userData.password) {
               return res.status(400).json({ error: "Password is required for Tutor" });
             }
-          } else if (userData.role === "Child") {
+          } else if (userData.role === "Children") {
             if (!userData.parentId || !userData.birthDate || !userData.dni) {
               return res.status(400).json({
-                error: "ParentId, birthDate, and dni are required for Child",
+                error: "ParentId, birthDate, and dni are required for Children",
               });
             }
           }

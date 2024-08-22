@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema(
     phone: { type: String },
     birthDate: { type: Date, required: true },
     dni: { type: String },
-    childrenIds: [{ type: mongoose.Schema.Types.ObjectId, ref: "Child" }], // IDs de los hijos asociados a este usuario
+    childrenIds: [{ type: mongoose.Schema.Types.ObjectId, ref: "Children" }], // IDs de los hijos asociados a este usuario
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
     active: { type: Boolean, default: true }, // Para manejo de borrado lógico

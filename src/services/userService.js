@@ -5,8 +5,8 @@ const registerUser = async (userData) => {
     throw new Error('Password is required for Tutor');
   }
 
-  if (userData.role === 'Child' && (!userData.parentId || !userData.birthDate || !userData.dni)) {
-    throw new Error('ParentId, birthDate, and dni are required for Child');
+  if (userData.role === 'Children' && (!userData.parentId || !userData.birthDate || !userData.dni)) {
+    throw new Error('ParentId, birthDate, and dni are required for Children');
   }
 
   const newUser = new User(userData);

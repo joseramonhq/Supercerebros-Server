@@ -1,6 +1,6 @@
 const User = require('../models/user');
 const bcryptjs = require("bcryptjs");
-const Child = require('../models/child');
+const Children = require('../models/children');
 
 const AuthController = {
   loginUser: async (req, res) => {
@@ -10,9 +10,9 @@ const AuthController = {
       // Declarar la variable 'user' con 'let' para permitir reasignación
       let user = await User.findOne({ email });
 
-      // Si no se encuentra en la colección 'User', buscar en la colección 'Child'
+      // Si no se encuentra en la colección 'User', buscar en la colección 'Children'
       if (user == null) {
-        user = await Child.findOne({ email });
+        user = await Children.findOne({ email });
       }
 
       if (!user) {

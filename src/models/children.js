@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
 
-const childSchema = new mongoose.Schema({
+const childrenSchema = new mongoose.Schema({
   _id: { type: mongoose.Schema.Types.ObjectId, auto: true }, // Mongoose gestiona automáticamente _id como ObjectId
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
@@ -16,7 +16,7 @@ const childSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    default: 'Child'
+    default: 'Children'
    
   },
 email: { 
@@ -62,22 +62,22 @@ email: {
 });
 
 // Hook para cifrar la contraseña
-childSchema.pre('save', function(next) {
-  const child = this;
+childrenSchema.pre('save', function(next) {
+  const children = this;
 
   // Normalizar el email si es un email
-  if (child.isModified('email') && validator.isEmail(child.email)) {
-    child.email = validator.normalizeEmail(child.email);
+  if (children.isModified('email') && validator.isEmail(children.email)) {
+    children.email = validator.normalizeEmail(children.email);
   }
 
   // Cifrar la contraseña si ha sido modificada
-  if (child.isModified('password')) {
+  if (children.isModified('password')) {
     bcrypt.genSalt(10, function(err, salt) {
       if (err) return next(err);
 
-      bcrypt.hash(child.password, salt, function(err, hash) {
+      bcrypt.hash(children.password, salt, function(err, hash) {
         if (err) return next(err);
-        child.password = hash;
+        children.password = hash;
         next();
       });
     });
@@ -86,4 +86,4 @@ childSchema.pre('save', function(next) {
   }
 });
 
-module.exports = mongoose.model('Child', childSchema);
+module.exports = mongoose.model('Children', childrenSchema);

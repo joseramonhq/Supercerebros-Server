@@ -1,7 +1,7 @@
 const express = require('express');
 
 const AuthController = require('../controllers/authController');
-const ChildController = require('../controllers/childController');
+const ChildrenController = require('../controllers/childrenController');
 
 const router = express.Router();
 
@@ -9,8 +9,8 @@ router.post('/login', AuthController.loginUser); // seguridad con el metodo POST
 
 // Rutas para el usuario
 
-router.post('/registerChild', ChildController.createChild);
-router.get('/:childId', ChildController.getChildById);
-router.get('/email/:email', ChildController.deleteChild);
+router.post('/registerChildren', ChildrenController.createChildren);
+router.get('/:childrenId', ChildrenController.getChildrenById);
+router.get('/email/:email', ChildrenController.deleteChildren);
 
 module.exports = router;

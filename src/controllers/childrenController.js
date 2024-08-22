@@ -1,11 +1,11 @@
 const bcryptjs = require("bcryptjs");
-const Child = require("../models/child");
+const Children = require("../models/children");
 const User = require("../models/user");
 const mongoose = require("mongoose");
 
-const ChildController = {
+const ChildrenController = {
   // Crear un nuevo niño
-  createChild: async (req, res) => {
+  createChildren: async (req, res) => {
     try {
       const {
         firstName,
@@ -36,7 +36,7 @@ const ChildController = {
     
 
       // Crear el nuevo niño
-      const newChild = new Child({
+      const newChildren = new Children({
         firstName,
         lastName,
         birthDate,
@@ -50,7 +50,7 @@ const ChildController = {
       });
 
       // Guardar el niño en la base de datos
-      const savedChild = await newChild.save();
+      const savedChildren = await newChildren.save();
       const tutor = await User.findById(parentId);
 
       if (!tutor) {
@@ -58,11 +58,11 @@ const ChildController = {
       }
 
       // Verificar si se encontró el tutor y agregar el ID del niño
-      tutor.childrenIds.push(savedChild._id); // Agregar el ID del hijo al array
+      tutor.childrenIds.push(savedChildren._id); // Agregar el ID del hijo al array
       await tutor.save(); // Guardar los cambios en la base de datos
 
       // Devolver la información del niño creado y del tutor actualizado
-      res.status(201).json({ child: savedChild });
+      res.status(201).json({ children: savedChildren });
     } catch (error) {
       console.error("Error al crear el niño:", error);
       res.status(500).json({ message: "Error al crear el niño" });
@@ -70,18 +70,18 @@ const ChildController = {
   },
 
   // Obtener un niño por ID
-  getChildById: async (req, res) => {
+  getChildrenById: async (req, res) => {
     try {
-      const childId = req.params.id;
-      const child = await Child.findById(childId)
+      const childrenId = req.params.id;
+      const children = await Children.findById(childrenId)
         .populate("parentId")
         .populate("fileIds");
 
-      if (!child) {
+      if (!children) {
         return res.status(404).json({ message: "Niño no encontrado" });
       }
 
-      res.status(200).json(child);
+      res.status(200).json(children);
     } catch (error) {
       console.error("Error al obtener el niño:", error);
       res.status(500).json({ message: "Error al obtener el niño" });
@@ -91,7 +91,7 @@ const ChildController = {
   // Obtener todos los niños
   getAllChildren: async (req, res) => {
     try {
-      const children = await Child.find()
+      const children = await Children.find()
         .populate("parentId")
         .populate("fileIds");
       res.status(200).json(children);
@@ -102,21 +102,21 @@ const ChildController = {
   },
 
   // Actualizar un niño por ID
-  updateChild: async (req, res) => {
+  updateChildren: async (req, res) => {
     try {
-      const childId = req.params.id;
+      const childrenId = req.params.id;
       const updatedData = req.body;
 
       // Actualizar el niño
-      const updatedChild = await Child.findByIdAndUpdate(childId, updatedData, {
+      const updatedChildren = await Children.findByIdAndUpdate(childrenId, updatedData, {
         new: true,
       });
 
-      if (!updatedChild) {
+      if (!updatedChildren) {
         return res.status(404).json({ message: "Niño no encontrado" });
       }
 
-      res.status(200).json(updatedChild);
+      res.status(200).json(updatedChildren);
     } catch (error) {
       console.error("Error al actualizar el niño:", error);
       res.status(500).json({ message: "Error al actualizar el niño" });
@@ -124,14 +124,14 @@ const ChildController = {
   },
 
   // Eliminar un niño por ID
-  deleteChild: async (req, res) => {
+  deleteChildren: async (req, res) => {
     try {
-      const childId = req.params.id;
+      const childrenId = req.params.id;
 
       // Eliminar el niño
-      const deletedChild = await Child.findByIdAndDelete(childId);
+      const deletedChildren = await Children.findByIdAndDelete(childrenId);
 
-      if (!deletedChild) {
+      if (!deletedChildren) {
         return res.status(404).json({ message: "Niño no encontrado" });
       }
 
@@ -143,4 +143,4 @@ const ChildController = {
   },
 };
 
-module.exports = ChildController;
+module.exports = ChildrenController;
