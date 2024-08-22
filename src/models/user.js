@@ -2,26 +2,21 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const validator = require("validator");
 
-const userSchema = new mongoose.Schema(
-  {
-    _id: { type: mongoose.Schema.Types.ObjectId, auto: true }, // Mongoose gestiona automáticamente _id como ObjectId
-    role: { type: String, default: "Tutor", required: true },
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    phone: { type: String },
-    birthDate: { type: Date, required: true },
-    dni: { type: String },
-    childrenIds: [{ type: mongoose.Schema.Types.ObjectId, ref: "Children" }], // IDs de los hijos asociados a este usuario
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
-    active: { type: Boolean, default: true }, // Para manejo de borrado lógico
-  },
-  {
-    timestamps: true, // Automáticamente maneja createdAt y updatedAt
-  }
-);
+const userSchema = new mongoose.Schema({
+  _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
+  role: { type: String, default: "Tutor", required: true },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  phone: { type: String },
+  birthDate: { type: Date, required: true },
+  dni: { type: String },
+  childrenIds: [{ type: mongoose.Schema.Types.ObjectId, ref: "Children" }],
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
+  active: { type: Boolean, default: true }
+}, { timestamps: true });
 
 // Hook para cifrar la contraseña y normalizar el email
 userSchema.pre("save", function (next) {
