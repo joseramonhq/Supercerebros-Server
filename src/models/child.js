@@ -56,6 +56,7 @@ email: {
     default: Date.now 
   }
 
+
 }, {
   timestamps: true // Automáticamente maneja createdAt y updatedAt
 });

@@ -1,14 +1,19 @@
 const User = require('../models/user');
 const bcryptjs = require("bcryptjs");
-
+const Child = require('../models/child');
 
 const AuthController = {
   loginUser: async (req, res) => {
     try {
       const { email, password } = req.body;
 
-      // Buscar el usuario por email
-      const user = await User.findOne({ email });
+      // Declarar la variable 'user' con 'let' para permitir reasignación
+      let user = await User.findOne({ email });
+
+      // Si no se encuentra en la colección 'User', buscar en la colección 'Child'
+      if (user == null) {
+        user = await Child.findOne({ email });
+      }
 
       if (!user) {
         return res.status(404).json({ message: "Usuario no encontrado" });
@@ -32,6 +37,5 @@ const AuthController = {
     }
   },
 };
-
 
 module.exports = AuthController;
