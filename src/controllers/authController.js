@@ -30,6 +30,7 @@ const AuthController = {
 
                 // Si es un niño, devolver el tipo como 'Child'
                 return res.status(200).json({
+                    success: true,
                     userOrChildType: 'Child',
                     user: childWithoutPassword
                 });
@@ -46,6 +47,7 @@ const AuthController = {
             const { password: _, ...userWithoutPassword } = user.toObject();
 
             return res.status(200).json({
+                success: true,
                 userOrChildType: 'User',
                 user: userWithoutPassword
             });
