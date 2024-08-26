@@ -8,8 +8,7 @@ const ChildrenController = {
   createChildren: async (req, res) => {
     try {
       const {
-        firstName,
-        lastName,
+        fullName,
         birthDate,
         gender,
         email,
@@ -22,8 +21,7 @@ const ChildrenController = {
 
       // Validar que los campos obligatorios estén presentes
       if (
-        !firstName ||
-        !lastName ||
+        !fullName ||
         !birthDate ||
         !parentId ||
         !email ||
@@ -37,8 +35,7 @@ const ChildrenController = {
 
       // Crear el nuevo niño
       const newChildren = new Children({
-        firstName,
-        lastName,
+        fullName,
         birthDate,
         gender,
         medicalInfo,
