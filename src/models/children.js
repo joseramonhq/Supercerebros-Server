@@ -4,8 +4,8 @@ const validator = require('validator');
 
 const childrenSchema = new mongoose.Schema({
   _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  fullName: { type: String, required: true },
+  //lastName: { type: String, required: true },
   birthDate: { type: Date, required: true },
   gender: { type: String },
   medicalInfo: { type: String },
