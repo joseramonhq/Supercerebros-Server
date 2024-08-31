@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const userRoute = require('./routes/userRoute');
 const childrenRoute= require('./routes/childrenRoute');
+const breathSessionRoute = require('./routes/breathSessionRoute');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -11,6 +12,7 @@ app.use(express.json());
 
 app.use('/api/users', userRoute);
 app.use('/api/children',childrenRoute);
+app.use('/api/breathSession', breathSessionRoute)
 
 app.get('/', (req, res) => {
   res.send('Welcome to SuperCerebros API');
