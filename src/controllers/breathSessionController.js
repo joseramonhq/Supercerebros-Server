@@ -19,6 +19,7 @@ const breathSessionController = {
 				pauseDuration,          // Pausa entre ciclos de respiración en segundos
 				totalDuration,          // Duración total de la sesión en segundos
 				completed,              // Booleano que indica si la sesión se completó
+
 			} = req.body;
 
 			// Validación: Verificamos que todos los campos obligatorios estén presentes y no sean indefinidos.
@@ -31,6 +32,7 @@ const breathSessionController = {
 				pauseDuration === undefined ||
 				totalDuration === undefined ||
 				completed === undefined
+	
 			) {
 				// Respondemos con un código de estado 400 porque los datos proporcionados son incorrectos o incompletos.
 				return res.status(400).json({ message: "Faltan campos obligatorios." });
@@ -46,6 +48,7 @@ const breathSessionController = {
 				pauseDuration,          // Asignamos la duración de la pausa
 				totalDuration,          // Asignamos la duración total de la sesión
 				completed,              // Asignamos si la sesión fue completada
+
 			});
 
 			// Guardamos la nueva sesión de respiración en la base de datos.

@@ -13,16 +13,7 @@ const breathSessionSchema = new mongoose.Schema(
       ref: "Children", // Este campo referencia al modelo 'Children', que debería estar definido en otro lugar.
       required: true, // Se asegura que este campo sea obligatorio.
     },
-    // El campo 'date' almacena la fecha y hora en que se creó la sesión.
-    // Por defecto, se asigna la fecha y hora actuales (Date.now) cuando se crea un nuevo documento.
-    // Es un campo requerido.
-    date: {
-      type: Date,
-      default: Date.now, // Asigna la fecha y hora actuales por defecto.
-      required: true, // Se asegura que este campo sea obligatorio.
-    },
-    // El campo 'inhaleDuration' almacena la duración de la inhalación en segundos.
-    // Es un campo de tipo Number y es requerido.
+
     inhaleDuration: {
       type: Number, // Define que este campo debe ser un número.
       required: true, // Se asegura que este campo sea obligatorio.
@@ -56,7 +47,7 @@ const breathSessionSchema = new mongoose.Schema(
     completed: {
       type: Boolean, // Define que este campo debe ser un valor booleano (true/false).
       required: true, // Se asegura que este campo sea obligatorio.
-    },
+    }
   },
   {
     // Esta opción añade automáticamente los campos 'createdAt' y 'updatedAt' al esquema.
